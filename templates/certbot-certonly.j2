@@ -6,7 +6,12 @@ function main {
 
   declare -a DOMAINS=(
 {% if frontlb_servers is defined %} {% for i in frontlb_servers %}
-{% if i.certbot_renew is defined and i.certbot_renew %}
+{% if i.certbot is defined and i.certbot %}
+  {{ i.server_name }}
+{% endif %}
+{% endfor %} {% endif %}
+{% if nginx_servers is defined %} {% for i in nginx_servers %}
+{% if i.certbot is defined and i.certbot %}
   {{ i.server_name }}
 {% endif %}
 {% endfor %} {% endif %}

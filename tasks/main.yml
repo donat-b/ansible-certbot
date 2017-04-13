@@ -23,11 +23,11 @@
   apt:
     pkg: '{{ item }}'
     update_cache: yes
-  with_items: '{{ certbot_packages }}'
+  with_items: '{{ certbot_packages | default([]) }}'
   tags:
     - packages
 
-- name: 'ensure config directory exists'
+- name: 'ensure {{ certbot_etc_path }} directory exists'
   file:
     path: '{{ certbot_etc_path }}'
     state: directory
