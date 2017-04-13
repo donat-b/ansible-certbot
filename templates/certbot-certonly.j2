@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+set -e
+
+function main {
+  trap exit INT
+
+  declare -a DOMAINS=(
+{% if frontlb_servers is defined %} {% for i in frontlb_servers %}
+{% if i.certbot_renew is defined and i.certbot_renew %}
+  {{ i.server_name }}
+{% endif %}
+{% endfor %} {% endif %}
+  )
+
+  for host in ${DOMAINS[@]}; do
+    {{ certbot_cmd }} $@ --config "{{ certbot_etc_path }}/cli.ini" \
+      --post-hook 'service nginx reload' --domain "$host" \
+      --manual-public-ip-logging-ok --agree-tos --no-eff-email \
+      certonly
+  done
+}
+
+main $@

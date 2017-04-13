@@ -1,0 +1,5 @@
+authenticator = {{ certbot_authenticator }}
+email = {{ certbot_email }}
+rsa-key-size = {{ certbot_rsa_key_size }}
+text = True
+webroot-path = {{ nginx_acme_path | default(certbot_webroot) }}

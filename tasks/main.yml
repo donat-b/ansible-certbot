@@ -1,0 +1,64 @@
+---
+# vi: set ft=ansible :
+
+- name: 'set os dependent variables'
+  include_vars: "{{ item }}"
+  with_first_found:
+    - files:
+      - '{{ ansible_distribution|lower }}-{{ ansible_distribution_version }}.yml'
+      - '{{ ansible_distribution|lower }}-{{ ansible_distribution_release }}.yml'
+      - '{{ ansible_distribution|lower }}-{{ ansible_distribution_major_version }}.yml'
+      - '{{ ansible_distribution|lower }}.yml'
+      - '{{ ansible_os_family|lower }}.yml'
+      paths:
+        - '../vars'
+
+- name: 'add repos'
+  apt_repository:
+    repo: '{{ item }}'
+    state: present
+  with_items: '{{ certbot_repos | default([]) }}'
+
+- name: 'install packages'
+  apt:
+    pkg: '{{ item }}'
+    update_cache: yes
+  with_items: '{{ certbot_packages }}'
+  tags:
+    - packages
+
+- name: 'ensure config directory exists'
+  file:
+    path: '{{ certbot_etc_path }}'
+    state: directory
+    owner: 'root'
+    group: 'root'
+  tags:
+    - certbot_config
+
+- name: 'deploy certbot config file'
+  template: 
+    src: 'certbot.ini.j2'
+    dest: '{{ certbot_etc_path }}/cli.ini'
+    owner: 'root'
+    group: 'root'
+  tags:
+    - certbot_config
+
+- name: 'deploy certbot script'
+  template: 
+    src: 'certbot-certonly.j2'
+    dest: '/usr/local/bin/certbot-certonly'
+    owner: 'root'
+    group: 'root'
+    mode: '0755'
+  tags:
+    - certbot_config
+
+- name: 'setup renewal cron job'
+  cron:
+    name: 'renew letsencrypt certificates'
+    job: 'certbot renew --config "{{ certbot_etc_path }}/cli.ini"'
+    special_time: 'monthly'
+  tags:
+    - certbot_config

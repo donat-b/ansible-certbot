@@ -1,0 +1,8 @@
+---
+# vi: set ft=ansible :
+
+certbot_repos:
+  - 'ppa:certbot/certbot'
+
+certbot_packages:
+  - 'python-certbot' 
