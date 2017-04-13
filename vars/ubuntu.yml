@@ -1,5 +1,5 @@
 ---
-# vi: set ft=ansible :
+# vi: set ft=yaml :
 
 certbot_repos:
   - 'ppa:certbot/certbot'
