@@ -1,0 +1,8 @@
+---
+# vi: ft=yaml :
+
+- hosts: localhost
+  remote_user: root
+
+  roles:
+    - ansible-certbot
