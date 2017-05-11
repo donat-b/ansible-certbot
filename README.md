@@ -16,6 +16,7 @@ Role Variables
 ```yaml
 certbot_authenticator: 'webroot'
 certbot_cmd          : 'certbot'
+certbot_email        : 'email@example.com'
 certbot_etc_path     : '/etc/letsencrypt'
 certbot_rsa_key_size : '4096'
 certbot_webroot      : '/var/www/certbot'
