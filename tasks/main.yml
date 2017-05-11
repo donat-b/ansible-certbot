@@ -1,7 +1,7 @@
 ---
 # vi: set ft=ansible :
 
-- name: 'set os dependent variables'
+- name: Set os dependent variables
   include_vars: "{{ item }}"
   with_first_found:
     - files:
@@ -13,13 +13,13 @@
       paths:
         - '../vars'
 
-- name: 'add repos'
+- name: Add repos
   apt_repository:
     repo: '{{ item }}'
     state: present
   with_items: '{{ certbot_repos | default([]) }}'
 
-- name: 'install packages'
+- name: Install packages
   apt:
     pkg: '{{ item }}'
     update_cache: yes
@@ -27,7 +27,7 @@
   tags:
     - packages
 
-- name: 'ensure {{ certbot_etc_path }} directory exists'
+- name: Ensure certbot etc directory exists
   file:
     path: '{{ certbot_etc_path }}'
     state: directory
@@ -36,7 +36,7 @@
   tags:
     - certbot_config
 
-- name: 'deploy certbot config file'
+- name: Deploy certbot config file
   template: 
     src: 'certbot.ini.j2'
     dest: '{{ certbot_etc_path }}/cli.ini'
@@ -45,7 +45,7 @@
   tags:
     - certbot_config
 
-- name: 'deploy certbot script'
+- name: Deploy certbot script
   template: 
     src: 'certbot-certonly.j2'
     dest: '/usr/local/bin/certbot-certonly'
@@ -55,7 +55,7 @@
   tags:
     - certbot_config
 
-- name: 'setup renewal cron job'
+- name: Setup renewal cron job
   cron:
     name: 'renew letsencrypt certificates'
     job: 'certbot renew --config "{{ certbot_etc_path }}/cli.ini"'
