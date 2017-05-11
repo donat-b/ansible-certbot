@@ -1,9 +1,8 @@
 Certbot
 =======
 
-Installs certbot on Ubuntu hosts and sets up a renewal cron job.
-Certificates should be obtained first using the certbot-certonly command which
-uses frontlb_servers or nginx_servers dicts from `nginx` role.
+Installs certbot on Ubuntu Trusty (and newer), configures
+a cron job with renewal command and deploys the script to fetch certificates.
 
 Requirements
 ------------
@@ -36,6 +35,14 @@ frontlb_servers:
       - 10.1.250.3
       - 10.1.250.4
 ```
+
+Usage
+-----
+
+- Set `certbot_email` to your email and other variables if necessary
+- Install certbot and scripts by running playbook
+- Obtain certificates with the certbot-certonly command
+- Done! Following certificate renewal will be handled by the cron job
 
 Debian
 ------
