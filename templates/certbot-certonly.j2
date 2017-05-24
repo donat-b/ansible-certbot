@@ -4,7 +4,7 @@ set -euf -o pipefail
 function main {
   trap exit INT
 
-  declare -a DOMAINS=(
+  declare -a domains=(
 {% if frontlb_servers is defined %} {% for i in frontlb_servers %}
 {% if i.certbot is defined and i.certbot %}
   {{ i.server_name }}
@@ -17,7 +17,7 @@ function main {
 {% endfor %} {% endif %}
   )
 
-  for host in ${DOMAINS[@]}; do
+  for host in ${domains[@]}; do
     {{ certbot_cmd }} $@ --config "{{ certbot_etc_path }}/cli.ini" \
       --post-hook 'service nginx reload' --domain "$host" \
       --manual-public-ip-logging-ok --agree-tos --no-eff-email \
