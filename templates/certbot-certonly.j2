@@ -7,7 +7,11 @@ function main {
   declare -a domains=(
 {% if frontlb_servers is defined %} {% for i in frontlb_servers %}
 {% if i.certbot is defined and i.certbot %}
-  {{ i.server_name }}
+  {% if i.server_name is iterable and i.server_name is not string %}
+'{{ i.server_name | join(',') }}'
+  {% else %}
+'{{ i.server_name }}'
+  {% endif %}
 {% endif %}
 {% endfor %} {% endif %}
 {% if nginx_servers is defined %} {% for i in nginx_servers %}

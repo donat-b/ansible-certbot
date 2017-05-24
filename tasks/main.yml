@@ -37,7 +37,7 @@
     - certbot_config
 
 - name: Deploy certbot config file
-  template: 
+  template:
     src: 'certbot.ini.j2'
     dest: '{{ certbot_etc_path }}/cli.ini'
     owner: 'root'
@@ -46,7 +46,7 @@
     - certbot_config
 
 - name: Deploy certbot script
-  template: 
+  template:
     src: 'certbot-certonly.j2'
     dest: '/usr/local/bin/certbot-certonly'
     owner: 'root'

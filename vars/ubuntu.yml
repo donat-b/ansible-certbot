@@ -1,8 +1,7 @@
 ---
-# vi: set ft=yaml :
 
 certbot_repos:
   - 'ppa:certbot/certbot'
 
 certbot_packages:
-  - 'python-certbot' 
+  - 'python-certbot'
