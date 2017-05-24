@@ -19,11 +19,11 @@
 
     frontlb_servers:
       - name: example.com
-        server_name: example.com
-        aliases:
-          - a.example.com
-          - b.example.com
-          - c.example.com
+        server_name:
+          - example.com
+          - www.example.com
+          - foo.example.com
+          - bar.example.com
         lb_method: 'least_conn'
         certbot: true
         upstreams:
