@@ -1,8 +1,35 @@
 ---
-# vi: ft=yaml :
 
-- hosts: localhost
+- hosts: all
+  gather_facts: false
+  tasks:
+    - name: 'ensure python2 is present'
+      raw: 'which python || apt-get install -y python python-simplejson'
+      changed_when: false
+
+- hosts: all
   remote_user: root
+  vars:
+    nginx_dhparam_length: 256
+
+    nginx_servers:
+      - name: molecule
+        server_name: _
+        certbot: true
+
+    frontlb_servers:
+      - name: example.com
+        server_name: example.com
+        aliases:
+          - a.example.com
+          - b.example.com
+          - c.example.com
+        lb_method: 'least_conn'
+        certbot: true
+        upstreams:
+          - address : '10.1.109.5'
+          - address : '10.1.109.6'
+          - address : '10.1.109.7'
 
   roles:
     - ansible-certbot
