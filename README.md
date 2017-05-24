@@ -27,7 +27,11 @@ Example configuration
 ```yaml
 frontlb_servers:
   - name       : 'example.com'
-    server_name: 'www.example.com'
+    server_name:
+      - 'example.com'
+      - 'www.example.com'
+      - 'foo.example.com'
+      - 'bar.example.com'
     lb_method  : 'least_conn'
     certbot    : true
     upstreams  :

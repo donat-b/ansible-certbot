@@ -1,5 +1,4 @@
 ---
-# vi: set ft=yaml :
 
 certbot_authenticator: 'webroot'
 certbot_cmd          : 'certbot'
