@@ -1,7 +1,7 @@
 ---
 
-certbot_repos:
+_certbot_repos:
   - 'ppa:certbot/certbot'
 
-certbot_packages:
+_certbot_packages:
   - 'python-certbot'

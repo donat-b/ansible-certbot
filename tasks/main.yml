@@ -17,13 +17,13 @@
   apt_repository:
     repo: '{{ item }}'
     state: present
-  with_items: '{{ certbot_repos | default([]) }}'
+  with_items: '{{ _certbot_repos | default(certbot_repos) }}'
 
 - name: Install packages
   apt:
     pkg: '{{ item }}'
     update_cache: yes
-  with_items: '{{ certbot_packages | default([]) }}'
+  with_items: '{{ _certbot_packages | default(certbot_packages) }}'
   tags:
     - packages
 
@@ -58,7 +58,7 @@
 - name: Setup renewal cron job
   cron:
     name: 'renew letsencrypt certificates'
-    job: '{{ certbot_cmd }} renew --config "{{ certbot_etc_path }}/cli.ini"'
+    job: '{{ _certbot_cmd | default(certbot_cmd) }} renew --config "{{ certbot_etc_path }}/cli.ini"'
     special_time: 'daily'
   tags:
     - certbot_config

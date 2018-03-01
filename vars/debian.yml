@@ -1,4 +1,4 @@
 ---
 # vi: set ft=ansible :
 
-certbot_cmd: 'certbot-auto'
+_certbot_cmd: 'certbot-auto'
